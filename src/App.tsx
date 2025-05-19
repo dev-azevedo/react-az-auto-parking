@@ -1,11 +1,11 @@
 import './App.css'
-import SignIn from './pages/signin'
+import RouterApp from "./routes"
 
 function App() {
 
   return (
     <>
-      <SignIn />
+      <RouterApp />
     </>
   )
 }
