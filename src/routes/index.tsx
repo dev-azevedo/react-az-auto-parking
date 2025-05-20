@@ -1,14 +1,20 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import SignIn from "../pages/signin"
-const routerApp = () => {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/signin" element={<SignIn />} />
-            </Routes>
-        </BrowserRouter>
-    )
-}
+import SignIn from "../pages/SignIn";
+import { Home } from "../pages/Home";
+import { PrivateRoutes } from "./privateRoutes";
 
-export default routerApp
+const routerApp = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/" element={<PrivateRoutes />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default routerApp;
