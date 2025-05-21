@@ -46,15 +46,16 @@ export default function SignIn() {
           p-5 xl:p-10"
         >
           <div
-            className="w-32 h-32 p-10 
+            className="w-28 h-28 p-10 
               
                         bg-dark
               text-white
               rounded-full 
-              flex justify-center items-center
+              flex justify-center items-end
+              text-6xl
               "
           >
-            AP
+          🚘
           </div>
 
           <h1 className="text-dark text-2xl font-bold mt-5">
