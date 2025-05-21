@@ -14,7 +14,7 @@ export default function SignIn() {
   return (
     <>
       <div
-        className="bg-slate-800 
+        className="bg-dark
         py-5 px-56 
         w-full h-screen 
         flex justify-between items-center

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { api } from "../services/api";
 import type { TAuthContext, TResponseApi, TSignIn, TUser, TJwtPayload } from "./type.auth";
+import helper from "../services/helper";
 
 
 export const AuthContext = createContext<TAuthContext>({} as TAuthContext);
@@ -56,6 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
+      helper.ResponseErrorApi(error)
     }
   };
 

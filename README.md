@@ -52,3 +52,10 @@ export default tseslint.config({
   },
 })
 ```
+
+### 🎨 Colors (tailwind):
+
+- dark text: slate-700
+- light text: text-white
+- bg main: sky-700
+- bg secondary: slate-800

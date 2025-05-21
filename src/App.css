@@ -10,3 +10,19 @@ button:disabled, a:disabled {
 opacity: .5 !important;
 cursor: not-allowed;
 }
+
+.text-secondary {
+    @apply text-orange-500;
+}
+
+.text-dark {
+    @apply text-slate-700;
+}
+
+.bg-main {
+    @apply bg-sky-700 text-white;
+}
+
+.bg-dark {
+    @apply bg-slate-800;
+}

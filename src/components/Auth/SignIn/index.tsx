@@ -25,12 +25,7 @@ export default function SignIn() {
       return;
     }
 
-    try {
-      await signIn(payload)
-    } catch (error: any) {
-      console.error(error)
-      helper.ResponseErrorApi(error)
-    }
+    await signIn(payload)
   }
 
   if (signed) {
@@ -46,7 +41,9 @@ export default function SignIn() {
         >
           <div
             className="w-32 h-32 p-10 
-              bg-gray-700 
+              
+                        bg-dark
+              text-white
               rounded-full 
               flex justify-center items-center
               "
@@ -54,7 +51,7 @@ export default function SignIn() {
             AP
           </div>
 
-          <h1 className="text-gray-700 text-2xl font-bold mt-10">
+          <h1 className="text-dark text-2xl font-bold mt-5">
             AzAutoParking
           </h1>
           <span className="text-slate-400 text-center">
@@ -83,22 +80,22 @@ export default function SignIn() {
           </div>
 
           <div className="w-full mx-auto mt-5 text-end">
-            <a className="text-blue-500 hover:underline cursor-pointer">
+            <a className="text-secondary hover:underline">
               Esqueceu sua senha?
             </a>
           </div>
 
           <div className="w-full mx-auto mt-5 text-center">
             <Button
-              className="bg-slate-400 w-full"
+              className="bg-main text-white w-full"
               onClick={handlerSignIn}
             >
-              Clique Aqui
+              Entrar
             </Button>
           </div>
 
           <div className="mt-5">
-            <Link to="/signup" className="text-blue-700">
+            <Link to="/signup" className="text-secondary">
               Cadastre-se aqui
             </Link>
           </div>
