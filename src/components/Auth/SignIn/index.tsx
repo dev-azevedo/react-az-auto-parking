@@ -1,26 +1,28 @@
 // import Button from './components/models/button'
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from 'react-toastify';
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../../context/auth.context";
 import BaseAnimate from "../../models/BaseAnimate";
 import Input from "../../models/Input";
 import Button from "../../models/Button";
 import { Spinner } from "../../models/Spinner";
-import { api } from "../../../services/api";
-import helper from "../../../services/helper";
-import type { TResponseApi } from "../../../context/type.auth";
+import { ConfirmedCode } from "../ConfirmedCode";
 
 export default function SignIn() {
-  const { signIn, signed, updateUser } = useContext(AuthContext);
+  const { signIn, signed } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmationCode, setConfirmationCode] = useState(true);
-  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+  }, [confirmationCode]);
 
   const handlerSignIn = async () => {
     if (!email || !password) {
@@ -37,32 +39,6 @@ export default function SignIn() {
 
     if (status === 403)
       setConfirmationCode(false);
-
-    setLoading(false); 
-  }
-
-  const handlerConfirmationCode = async () => {
-    if (!code) {
-      toast.error("Preencha o código de verificação");
-      return;
-    }
-
-    setLoading(true);
-    const payload = {
-      email,
-      code
-    }
-
-    try {
-      const response = await api.post<TResponseApi>("/auth/verify/account", payload);
-      const result = response.data;
-      const userData = result.data;
-      updateUser(userData);
-      toast.success("Conta verificada com sucesso");
-      navigate("/");
-    } catch (error) {
-      helper.ResponseErrorApi(error)
-    }
 
     setLoading(false); 
   }
@@ -152,33 +128,7 @@ export default function SignIn() {
           </div>
         </form>
         :
-
-        <form className="w-full flex justify-center items-center flex-col
-          p-1 xl:p-10">
-            <h3 className="text-lg text-dark">Verifique seu email, foi enviado um código para validação</h3>
-
-          <div className="w-full mx-auto mt-5">
-            <Input
-              className="bg-white"
-              label="Código de verificação"
-              placeholder="Digite seu código de verificação"
-              value={code}
-              disabled={loading}
-              onChange={(e) => setCode(e.target.value)}
-            />
-          </div>
-
-          <Button
-              className="bg-main text-white w-full flex justify-center items-center gap-2 mt-10"
-              onClick={handlerConfirmationCode}
-              disabled={loading}
-            >
-              <span>
-                Confirmar código
-              </span>
-              {loading && <Spinner />}
-            </Button>
-        </form>
+        <ConfirmedCode email={email} setConfirmationCode={setConfirmationCode} />
       }
       </BaseAnimate>
     </>
