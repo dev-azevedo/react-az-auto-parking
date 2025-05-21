@@ -2,8 +2,9 @@ export type TAuthContext = {
   user: TUser | null;
   setUser: (user: TUser | null) => void;
   signed: boolean;
-  signIn: (credentials: { email: string; password: string }) => Promise<void>;
+  signIn: (credentials: { email: string; password: string }) => Promise<number>;
   signOut: () => void;
+  updateUser: (user: TUser) => void
 };
 
 export type TUser = {

@@ -7,6 +7,7 @@ import Button from "../../models/Button";
 import { toast } from "react-toastify";
 import Helper from "../../../services/helper";
 import { api } from "../../../services/api";
+import { Spinner } from "../../models/Spinner";
 
 export const SignUp = () => {
     const navigate = useNavigate();
@@ -15,10 +16,11 @@ export const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmedPassword, setConfirmedPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const validateFields = () => {
         let validateFields = true;
-    
+
         if (!fullName || fullName.length < 6 || fullName.split(" ").length < 2) {
             toast.error("Preencha o nome completo corretamente");
             validateFields = false;
@@ -43,7 +45,7 @@ export const SignUp = () => {
             return validateFields;
         }
 
-        if (!confirmedPassword){
+        if (!confirmedPassword) {
             toast.error("Preencha o campo confirmar senha");
             validateFields = false;
             return validateFields;
@@ -57,21 +59,21 @@ export const SignUp = () => {
 
         return validateFields;
     };
-    
+
 
     const handlerSignUp = async () => {
-        
+        setLoading(true)
         const validFields = validateFields();
 
         if (!validFields)
-            return;
+            return setLoading(false)
 
         const payload = {
             fullName, email, password, confirmedPassword
         }
 
         try {
-            const {status} = await api.post("/users", payload);
+            const { status } = await api.post("/users", payload);
             if (status === 201) {
                 toast.success("Cadastro realizado com sucesso");
                 navigate("/signin");
@@ -80,6 +82,8 @@ export const SignUp = () => {
             console.error(error)
             Helper.ResponseErrorApi(error)
         }
+
+        return setLoading(false)
     }
 
     return (
@@ -120,6 +124,7 @@ export const SignUp = () => {
                             placeholder="Digite seu nome completo"
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
+                            disabled={loading}
                         />
                     </div>
 
@@ -131,6 +136,7 @@ export const SignUp = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            disabled={loading}
                         />
                     </div>
 
@@ -142,6 +148,7 @@ export const SignUp = () => {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            disabled={loading}
                         />
                     </div>
 
@@ -153,20 +160,26 @@ export const SignUp = () => {
                             type="password"
                             value={confirmedPassword}
                             onChange={(e) => setConfirmedPassword(e.target.value)}
+                            disabled={loading}
                         />
                     </div>
 
                     <Button
-                        className="bg-main text-white w-full mt-5"
+                        className="bg-main text-white w-full mt-5 flex justify-center items-center gap-2"
                         onClick={handlerSignUp}
+                        disabled={loading}
                     >
-                        Cadastrar
+                        <span>
+                            Cadastrar
+                        </span>
+                        {loading && <Spinner />}
                     </Button>
 
                     <div className="mt-5">
-                        <Link to="/signin" className="text-secondary">
+
+                        <Button disabled={loading} onClick={() => navigate("/signin")} className="text-secondary shadow-none">
                             Já tenho conta
-                        </Link>
+                        </Button>
                     </div>
                 </form>
             </BaseAnimate>

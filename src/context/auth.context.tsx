@@ -38,7 +38,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loadSessionStorage();
   }, []);
 
-  const signIn = async ({ email, password }: TSignIn): Promise<void> => {
+  const updateUser = (user: TUser): void => {
+    setUser(user);
+    localStorage.setItem("@AzAutoParking:token", user.token);
+    api.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+  };
+  const signIn = async ({ email, password }: TSignIn): Promise<number> => {
     try {
       const response = await api.post<TResponseApi>(`/auth/signin`, {
         email,
@@ -48,16 +53,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (response.status === 200 && response.data.isSuccess) {
         const result = response.data;
         const userData = result.data;
-        const token = userData.token;
-
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        localStorage.setItem("@AzAutoParking:token", token);
-        setUser(userData);
+        updateUser(userData);
         navigate("/");
+
       }
-    } catch (error) {
+
+      return response.status as number;
+    } catch (error: any) {
       console.error("Erro ao fazer login:", error);
       helper.ResponseErrorApi(error)
+      const status = error?.response?.status ?? 500;
+      return status;
     }
   };
 
@@ -76,6 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         signed: !!user,
         signIn,
         signOut,
+        updateUser
       }}
     >
       {children}

@@ -15,9 +15,9 @@ export default function SignIn() {
     <>
       <div
         className="bg-dark
-        py-5 px-56 
+        p-1  lg:px-56 
         w-full h-screen 
-        flex justify-between items-center
+        flex xl:justify-between items-center
         flex-col xl:flex-row
       "
       >

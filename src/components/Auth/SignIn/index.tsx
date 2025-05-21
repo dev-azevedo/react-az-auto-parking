@@ -8,13 +8,18 @@ import BaseAnimate from "../../models/BaseAnimate";
 import Input from "../../models/Input";
 import Button from "../../models/Button";
 import { Spinner } from "../../models/Spinner";
+import { api } from "../../../services/api";
+import helper from "../../../services/helper";
+import type { TResponseApi } from "../../../context/type.auth";
 
 export default function SignIn() {
-  const { signIn, signed } = useContext(AuthContext);
+  const { signIn, signed, updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmationCode, setConfirmationCode] = useState(true);
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handlerSignIn = async () => {
@@ -22,16 +27,44 @@ export default function SignIn() {
       toast.error("Preencha todos os campos");
       return;
     }
-    
-    setLoading(true);  
+
+    setLoading(true);
     const payload = {
       email, password
     }
-    
-    await signIn(payload)
 
-    setTimeout(() => setLoading(false), 3000);
-    // setLoading(false); 
+    const status = await signIn(payload)
+
+    if (status === 403)
+      setConfirmationCode(false);
+
+    setLoading(false); 
+  }
+
+  const handlerConfirmationCode = async () => {
+    if (!code) {
+      toast.error("Preencha o código de verificação");
+      return;
+    }
+
+    setLoading(true);
+    const payload = {
+      email,
+      code
+    }
+
+    try {
+      const response = await api.post<TResponseApi>("/auth/verify/account", payload);
+      const result = response.data;
+      const userData = result.data;
+      updateUser(userData);
+      toast.success("Conta verificada com sucesso");
+      navigate("/");
+    } catch (error) {
+      helper.ResponseErrorApi(error)
+    }
+
+    setLoading(false); 
   }
 
   if (signed) {
@@ -40,11 +73,9 @@ export default function SignIn() {
 
   return (
     <>
-      <BaseAnimate className="w-full min-w-96 xl:w-2/6 bg-white rounded-md">
-        <form
-          className="w-full flex justify-center items-center flex-col
-          p-5 xl:p-10"
-        >
+      <BaseAnimate className="w-auto p-2 xl:w-2/6 bg-white rounded-md">
+        <div className="w-full flex justify-center items-center flex-col
+          p-1 xl:px-10 xl:pt-10">
           <div
             className="w-28 h-28 p-10 
               
@@ -55,7 +86,7 @@ export default function SignIn() {
               text-6xl
               "
           >
-          🚘
+            🚘
           </div>
 
           <h1 className="text-dark text-2xl font-bold mt-5">
@@ -64,6 +95,13 @@ export default function SignIn() {
           <span className="text-slate-400 text-center">
             Sistema de Gerenciamento de Estacionamento
           </span>
+        </div>
+
+        {confirmationCode ? 
+        <form
+          className="w-full flex justify-center items-center flex-col
+          p-1 xl:p-10"
+        >
 
           <div className="w-full mx-auto mt-10">
             <Input
@@ -113,6 +151,35 @@ export default function SignIn() {
             </Button>
           </div>
         </form>
+        :
+
+        <form className="w-full flex justify-center items-center flex-col
+          p-1 xl:p-10">
+            <h3 className="text-lg text-dark">Verifique seu email, foi enviado um código para validação</h3>
+
+          <div className="w-full mx-auto mt-5">
+            <Input
+              className="bg-white"
+              label="Código de verificação"
+              placeholder="Digite seu código de verificação"
+              value={code}
+              disabled={loading}
+              onChange={(e) => setCode(e.target.value)}
+            />
+          </div>
+
+          <Button
+              className="bg-main text-white w-full flex justify-center items-center gap-2 mt-10"
+              onClick={handlerConfirmationCode}
+              disabled={loading}
+            >
+              <span>
+                Confirmar código
+              </span>
+              {loading && <Spinner />}
+            </Button>
+        </form>
+      }
       </BaseAnimate>
     </>
   );
