@@ -6,8 +6,8 @@ import Input from "../../components/models/Input";
 import Button from "../../components/models/Button";
 import BaseAnimate from "../../components/models/BaseAnimate";
 import Helper from "../../services/helper";
-import { AuthContext } from "../../context/auth";
-import { Navigate } from "react-router-dom";
+import { AuthContext } from "../../context/auth.context";
+import { Link, Navigate } from "react-router-dom";
 
 export default function SignIn() {
   const { signIn, signed } = useContext(AuthContext);
@@ -27,12 +27,12 @@ export default function SignIn() {
 
     try {
       await signIn(payload)
-      toast.success("Usuário logado com sucesso")
     } catch (error: any) {
       console.error(error)
       Helper.ResponseErrorApi(error)
     }
   }
+  
   if(signed) {
     return <Navigate to="/" />
   }
@@ -103,6 +103,12 @@ export default function SignIn() {
               >
                 Clique Aqui
               </Button>
+            </div>
+
+            <div className="mt-5">
+              <Link to="/signup" className="text-blue-700">
+                Cadastre-se aqui
+              </Link>
             </div>
           </form>
         </BaseAnimate>

@@ -1,19 +1,25 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
-import SignIn from "../pages/SignIn";
 import { Home } from "../pages/Home";
 import { PrivateRoutes } from "./privateRoutes";
+import { Layout } from "../pages/Layout";
+import Start from "../pages/Start";
+import SignIn from "../components/Auth/SignIn";
+import { SignUp } from "../components/Auth/SignUp";
 
 const routerApp = () => {
   return (
-    <BrowserRouter>
-      <Routes>
+    <Routes>
+      <Route element={<Start />}>
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/" element={<PrivateRoutes />}>
-          <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Route>
+      <Route element={<PrivateRoutes />}>
+        <Route element={<Layout />}>
+          <Route path="" element={<Home />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
+      </Route>
+    </Routes>
   );
 };
 

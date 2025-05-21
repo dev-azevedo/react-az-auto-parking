@@ -23,12 +23,10 @@ export default function Button(props: ButtonProps) {
       onClick={onClick}
       disabled={disabled}
       className={`
-        px-4 py-2 rounded-md 
-        transition duration-300 
+        px-4 py-2 rounded-md
         shadow-md 
         cursor-pointer
-        disabled:opacity-50 disabled:cursor-not-allowed 
-        hover:opacity-70
+        disabled:opacity-50 disabled:cursor-not-allowed
         ${className}
       `}
     >

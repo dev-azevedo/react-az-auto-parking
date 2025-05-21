@@ -10,10 +10,10 @@ type BaseAnimateProps = {
 export default function BaseAnimate({ children, className }: BaseAnimateProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, marginTop: 300 }}
+      initial={{ opacity: 0, marginTop: 100 }}
       animate={{ opacity: 1, marginTop: 0  }}
-      exit={{ opacity: 0, marginTop: 300 }}
-      transition={{ duration: 1, ease: "easeOut" }}
+      exit={{ opacity: 0, marginTop: 100 }}
+      transition={{ duration: .4, ease: "easeOut" }}
       className={className}
     >
       {children}
