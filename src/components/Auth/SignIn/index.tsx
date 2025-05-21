@@ -1,31 +1,37 @@
 // import Button from './components/models/button'
 import { useContext, useState } from "react";
 import { toast } from 'react-toastify';
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../../context/auth.context";
-import helper from "../../../services/helper";
 import BaseAnimate from "../../models/BaseAnimate";
 import Input from "../../models/Input";
 import Button from "../../models/Button";
+import { Spinner } from "../../models/Spinner";
 
 export default function SignIn() {
   const { signIn, signed } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handlerSignIn = async () => {
-    const payload = {
-      email, password
-    }
-
     if (!email || !password) {
       toast.error("Preencha todos os campos");
       return;
     }
-
+    
+    setLoading(true);  
+    const payload = {
+      email, password
+    }
+    
     await signIn(payload)
+
+    setTimeout(() => setLoading(false), 3000);
+    // setLoading(false); 
   }
 
   if (signed) {
@@ -64,6 +70,7 @@ export default function SignIn() {
               label="Email"
               placeholder="Digite seu email"
               value={email}
+              disabled={loading}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -75,29 +82,34 @@ export default function SignIn() {
               placeholder="Digite sua senha"
               type="password"
               value={password}
+              disabled={loading}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
           <div className="w-full mx-auto mt-5 text-end">
-            <a className="text-secondary hover:underline">
+            <Button disabled={loading} onClick={() => navigate("/signup")} className="text-secondary shadow-none hover:underline">
               Esqueceu sua senha?
-            </a>
+            </Button>
           </div>
 
           <div className="w-full mx-auto mt-5 text-center">
             <Button
-              className="bg-main text-white w-full"
+              className="bg-main text-white w-full flex justify-center items-center gap-2"
               onClick={handlerSignIn}
+              disabled={loading}
             >
-              Entrar
+              <span>
+                Entrar
+              </span>
+              {loading && <Spinner />}
             </Button>
           </div>
 
           <div className="mt-5">
-            <Link to="/signup" className="text-secondary">
+            <Button disabled={loading} onClick={() => navigate("/signup")} className="text-secondary shadow-none">
               Cadastre-se aqui
-            </Link>
+            </Button>
           </div>
         </form>
       </BaseAnimate>

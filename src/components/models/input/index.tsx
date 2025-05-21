@@ -32,8 +32,8 @@ const Input: React.FC<InputProps> = ({ label, className = "", type = "text", ...
 
       {type === "password" && (
         <div className="flex gap-2 items-center mt-2">
-          <input type="checkbox" className="cursor-pointer" onChange={(e) => setShowPassword(e.target.checked)} id={`showPasswordToggle${randomId}`} />
-          <label htmlFor={`showPasswordToggle${randomId}`} className="text-md text-gray-500 cursor-pointer">
+          <input type="checkbox" disabled={props.disabled} className="cursor-pointer disabled:cursor-not-allowed" onChange={(e) => setShowPassword(e.target.checked)} id={`showPasswordToggle${randomId}`} />
+          <label htmlFor={`showPasswordToggle${randomId}`} className="text-md text-gray-500 cursor-pointer disabled:cursor-not-allowed">
             Mostrar senha
           </label>
         </div>

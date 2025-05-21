@@ -6,7 +6,7 @@ transition: ease .3s;
 cursor: pointer;
 }
 
-button:disabled, a:disabled {
+button:disabled, a:disabled, input:disabled {
 opacity: .5 !important;
 cursor: not-allowed;
 }
