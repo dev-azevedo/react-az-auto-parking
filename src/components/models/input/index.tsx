@@ -42,4 +42,4 @@ const Input: React.FC<InputProps> = ({ label, className = "", type = "text", ...
   );
 };
 
-export default Input;
+export default React.memo(Input);

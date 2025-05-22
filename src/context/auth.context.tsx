@@ -12,6 +12,7 @@ export const AuthContext = createContext<TAuthContext>({} as TAuthContext);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<TUser | null>(null);
+  const [signed, setSigned] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +22,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (token) {
         const decoded = jwtDecode(token) as TJwtPayload;
         console.log("Token decodificado:", decoded);
+
+        if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+          signOut();
+          return;
+        }
+
         const payloadUser = {
           id: +decoded.id,
           fullName: decoded.fullname,
@@ -29,6 +36,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           token: token,
         };
 
+        const resetPassword = decoded.resetPassword == "True" ? true : false;
+        resetPassword ? setSigned(false) : setSigned(true);
+        console.log(signed)
+
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         setUser(payloadUser);
         
@@ -36,13 +47,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     loadSessionStorage();
-  }, []);
+  }, [navigate]);
 
   const updateUser = (user: TUser): void => {
     setUser(user);
     localStorage.setItem("@AzAutoParking:token", user.token);
     api.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
   };
+
   const signIn = async ({ email, password }: TSignIn): Promise<number> => {
     try {
       const response = await api.post<TResponseApi>(`/auth/signin`, {
@@ -54,6 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const result = response.data;
         const userData = result.data;
         updateUser(userData);
+        setSigned(true);
         navigate("/");
 
       }
@@ -70,6 +83,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signOut = (): void  => {
     localStorage.removeItem("@AzAutoParking:token");
     api.defaults.headers.common["Authorization"] = "";
+    setSigned(false);
     setUser(null);
     navigate("/signin");
   }
@@ -79,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         setUser,
-        signed: !!user,
+        signed,
         signIn,
         signOut,
         updateUser

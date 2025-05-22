@@ -1,13 +1,14 @@
 // components/BaseAnimPage.tsx
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import React from "react";
 
 type BaseAnimateProps = {
   children: ReactNode;
   className?: string;
 };
 
-export default function BaseAnimate({ children, className }: BaseAnimateProps) {
+const BaseAnimate = ({ children, className }: BaseAnimateProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, marginTop: 100 }}
@@ -20,3 +21,5 @@ export default function BaseAnimate({ children, className }: BaseAnimateProps) {
     </motion.div>
   );
 }
+
+export default React.memo(BaseAnimate);

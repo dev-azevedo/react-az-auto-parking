@@ -1,47 +1,37 @@
-// import Button from './components/models/button'
-import { useContext, useEffect, useState } from "react";
-import { toast } from 'react-toastify';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useContext, useState, type JSX } from "react";
+import { Navigate } from "react-router-dom";
 
-import { AuthContext } from "../../../context/auth.context";
-import BaseAnimate from "../../models/BaseAnimate";
-import Input from "../../models/Input";
-import Button from "../../models/Button";
-import { Spinner } from "../../models/Spinner";
-import { ConfirmedCode } from "../ConfirmedCode";
+import { AuthContext } from "@/context/auth.context";
+import BaseAnimate from "@/components/models/BaseAnimate";
+import ConfirmedCode from "@/components/Auth/ConfirmedCode";
+import FormSingIn from "@/components/Auth/SignIn/FormSingIn";
+import ForgotPassword from "@/components/Auth/ForgotPassword";
+import { ECurrentComp, type TCurrentComp } from "@/components/Auth/types.auth";
+import ResetPassword from "@/components/Auth/ResetPassword";
+import React from "react";
 
-export default function SignIn() {
-  const { signIn, signed } = useContext(AuthContext);
-  const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmationCode, setConfirmationCode] = useState(true);
-  const [loading, setLoading] = useState(false);
+const SignIn = () => {
+  const { signed } = useContext(AuthContext);
 
-  useEffect(() => {
-    setEmail("");
-    setPassword("");
-  }, [confirmationCode]);
+  const [emailForConfirmationCode, setEmailForConfirmationCode] = useState("");
+  const [currentComp, setCurrentComp] = useState<TCurrentComp>("signIn");
+  const [forgotPassword, setForgotPassword] = useState<boolean>(false);
 
-  const handlerSignIn = async () => {
-    if (!email || !password) {
-      toast.error("Preencha todos os campos");
-      return;
-    }
 
-    setLoading(true);
-    const payload = {
-      email, password
-    }
-
-    const status = await signIn(payload)
-
-    if (status === 403)
-      setConfirmationCode(false);
-
-    setLoading(false); 
+  const HandlerComp = (): JSX.Element => {
+    if (currentComp === ECurrentComp.signIn)
+      return <FormSingIn setEmailForConfirmationCode={setEmailForConfirmationCode} setCurrentComp={setCurrentComp} />
+    else if (currentComp === ECurrentComp.confirmedCode)
+      return <ConfirmedCode email={emailForConfirmationCode} setCurrentComp={setCurrentComp} forgotPassword={forgotPassword} />
+    else if (currentComp === ECurrentComp.forgotPassword)
+      return <ForgotPassword setCurrentComp={setCurrentComp} setEmailForConfirmationCode={setEmailForConfirmationCode} setForgotPassword={setForgotPassword}/>
+  
+    return <ResetPassword setCurrentComp={setCurrentComp}/>
   }
+
+
+
 
   if (signed) {
     return <Navigate to="/" />
@@ -73,64 +63,12 @@ export default function SignIn() {
           </span>
         </div>
 
-        {confirmationCode ? 
-        <form
-          className="w-full flex justify-center items-center flex-col
-          p-1 xl:p-10"
-        >
 
-          <div className="w-full mx-auto mt-10">
-            <Input
-              className="bg-white"
-              label="Email"
-              placeholder="Digite seu email"
-              value={email}
-              disabled={loading}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
-          <div className="w-full mx-auto mt-5">
-            <Input
-              className="bg-white"
-              label="Senha"
-              placeholder="Digite sua senha"
-              type="password"
-              value={password}
-              disabled={loading}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <div className="w-full mx-auto mt-5 text-end">
-            <Button disabled={loading} onClick={() => navigate("/signup")} className="text-secondary shadow-none hover:underline">
-              Esqueceu sua senha?
-            </Button>
-          </div>
-
-          <div className="w-full mx-auto mt-5 text-center">
-            <Button
-              className="bg-main text-white w-full flex justify-center items-center gap-2"
-              onClick={handlerSignIn}
-              disabled={loading}
-            >
-              <span>
-                Entrar
-              </span>
-              {loading && <Spinner />}
-            </Button>
-          </div>
-
-          <div className="mt-5">
-            <Button disabled={loading} onClick={() => navigate("/signup")} className="text-secondary shadow-none">
-              Cadastre-se aqui
-            </Button>
-          </div>
-        </form>
-        :
-        <ConfirmedCode email={email} setConfirmationCode={setConfirmationCode} />
-      }
+        <HandlerComp />
       </BaseAnimate>
     </>
   );
 }
+
+
+export default React.memo(SignIn)

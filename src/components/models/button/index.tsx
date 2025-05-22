@@ -8,7 +8,7 @@ type ButtonProps = {
   disabled?: boolean;
 };
 
-export default function Button(props: ButtonProps) {
+const Button = (props: ButtonProps) => {
   const {
     children,
     onClick,
@@ -34,3 +34,5 @@ export default function Button(props: ButtonProps) {
     </button>
   );
 }
+
+export default React.memo(Button);

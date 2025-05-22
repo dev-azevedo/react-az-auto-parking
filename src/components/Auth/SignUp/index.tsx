@@ -1,13 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import BaseAnimate from "../../models/BaseAnimate";
 import Input from "../../models/Input";
 import Button from "../../models/Button";
-import { toast } from "react-toastify";
 import Helper from "../../../services/helper";
+import Spinner from "../../models/Spinner";
 import { api } from "../../../services/api";
-import { Spinner } from "../../models/Spinner";
 
 export const SignUp = () => {
     const navigate = useNavigate();
@@ -113,8 +113,7 @@ export const SignUp = () => {
                     </span>
 
                     <div className="w-full mt-5">
-                        <h2 className="text-lg">Cadastre-se</h2>
-
+                        <h2 className="text-lg text-dark">Cadastre-se</h2>
                     </div>
 
                     <div className="w-full mx-auto mt-5">

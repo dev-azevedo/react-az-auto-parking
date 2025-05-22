@@ -1,24 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { AuthContext } from "../../../context/auth.context";
-import { api } from "../../../services/api";
-import type { TResponseApi } from "../../../context/type.auth";
-import helper from "../../../services/helper";
-import Input from "../../models/Input";
-import Button from "../../models/Button";
-import { Spinner } from "../../models/Spinner";
-import BaseAnimate from "../../models/BaseAnimate";
-
-type TConfirmedCode = {
-    email: string;
-    setConfirmationCode: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { api } from "@/services/api";
+import helper from "@/services/helper";
+import Input from "@/components/models/Input";
+import Button from "@/components/models/Button";
+import Spinner from "@/components/models/Spinner";
+import BaseAnimate from "@/components/models/BaseAnimate";
+import useAuthContext from "@/hooks/useAuthContext";
+import { ECurrentComp, type TConfirmedCode } from "@/components/Auth/types.auth";
+import type { TResponseApi } from "@/context/type.auth";
 
 
-export const ConfirmedCode = ({ email, setConfirmationCode }:TConfirmedCode) => {
-    const { updateUser } = useContext(AuthContext);
+const ConfirmedCode = ({ email, setCurrentComp, forgotPassword }:TConfirmedCode) => {
+    const { updateUser } = useAuthContext();
     const navigate = useNavigate();
 
     const [code, setCode] = useState("");
@@ -37,12 +33,18 @@ export const ConfirmedCode = ({ email, setConfirmationCode }:TConfirmedCode) => 
         }
 
         try {
-            const response = await api.post<TResponseApi>("/auth/verify/account", payload);
+            const url = forgotPassword ? "/auth/verify/code" : "/auth/verify/account";
+            const response = await api.post<TResponseApi>(url, payload);
             const result = response.data;
             const userData = result.data;
             updateUser(userData);
-            toast.success("Conta verificada com sucesso");
-            navigate("/");
+
+            if (!forgotPassword) {
+                toast.success("Conta verificada com sucesso");
+               return navigate("/"); 
+            }
+
+            setCurrentComp(ECurrentComp.resetPassword);
         } catch (error) {
             helper.ResponseErrorApi(error)
         }
@@ -54,7 +56,7 @@ export const ConfirmedCode = ({ email, setConfirmationCode }:TConfirmedCode) => 
             <BaseAnimate className="w-auto pt-5">
                 <form className="w-full flex justify-center items-center flex-col
           p-1 xl:p-10">
-                    <h3 className="text-lg text-dark">Verifique seu email, foi enviado um código para validação</h3>
+                    <h3 className="text-lg text-dark">Verifique seu email, foi enviado um código para {forgotPassword ? "alterar sua senha." : "verificar conta."}</h3>
 
                     <div className="w-full mx-auto mt-5">
                         <Input
@@ -79,7 +81,7 @@ export const ConfirmedCode = ({ email, setConfirmationCode }:TConfirmedCode) => 
                     </Button>
 
                     <div className="mt-5">
-                        <Button disabled={loading} onClick={() => setConfirmationCode(true)} className="text-secondary shadow-none">
+                        <Button disabled={loading} onClick={() => setCurrentComp(ECurrentComp.signIn)} className="text-secondary shadow-none">
                             Entrar com outra conta
                         </Button>
                     </div>
@@ -88,3 +90,5 @@ export const ConfirmedCode = ({ email, setConfirmationCode }:TConfirmedCode) => 
         </>
     );
 }
+
+export default ConfirmedCode
