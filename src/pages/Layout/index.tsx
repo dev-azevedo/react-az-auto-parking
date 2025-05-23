@@ -1,10 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { Menu } from "../../components/Menu";
 
-export const Layout = () => {
+const Layout = () => {
     return (
         <main>
             <Menu />
             <Outlet />
         </main>);
 };
+
+export default Layout;

@@ -9,7 +9,7 @@ import Helper from "../../../services/helper";
 import Spinner from "../../models/Spinner";
 import { api } from "../../../services/api";
 
-export const SignUp = () => {
+const SignUp = () => {
     const navigate = useNavigate();
 
     const [fullName, setFullName] = useState("");
@@ -73,7 +73,7 @@ export const SignUp = () => {
         }
 
         try {
-            const { status } = await api.post("/users", payload);
+            const { status } = await api.post("/auth/signup", payload);
             if (status === 201) {
                 toast.success("Cadastro realizado com sucesso");
                 navigate("/signin");
@@ -185,3 +185,5 @@ export const SignUp = () => {
         </>
     );
 };
+
+export default SignUp;

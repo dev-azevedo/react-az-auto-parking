@@ -11,10 +11,10 @@ type BaseAnimateProps = {
 const BaseAnimate = ({ children, className }: BaseAnimateProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, marginTop: 100 }}
-      animate={{ opacity: 1, marginTop: 0  }}
-      exit={{ opacity: 0, marginTop: 100 }}
-      transition={{ duration: .4, ease: "easeOut" }}
+      initial={{ opacity: .5, scale: .8 }}
+      animate={{ opacity: 1, scale: 1  }}
+      exit={{ opacity: .5, scale: .7 }}
+      transition={{ duration: .5, ease: "easeInOut" }}
       className={className}
     >
       {children}

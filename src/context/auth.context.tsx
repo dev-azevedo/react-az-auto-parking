@@ -12,6 +12,7 @@ export const AuthContext = createContext<TAuthContext>({} as TAuthContext);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<TUser | null>(null);
+  const [loading, setLoading] = useState(true);
   const [signed, setSigned] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -42,8 +43,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         setUser(payloadUser);
-        
       }
+
+      setLoading(false);
     };
 
     loadSessionStorage();
@@ -96,7 +98,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         signed,
         signIn,
         signOut,
-        updateUser
+        updateUser,
+        loading,
+        setLoading
       }}
     >
       {children}

@@ -5,6 +5,8 @@ export type TAuthContext = {
   signIn: (credentials: { email: string; password: string }) => Promise<number>;
   signOut: () => void;
   updateUser: (user: TUser) => void
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 };
 
 export type TUser = {

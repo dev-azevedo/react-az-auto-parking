@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/auth.context";
 import Button from "../../components/models/Button";
 import BaseAnimate from "../../components/models/BaseAnimate";
 
-export const Home = () => {
+const Home = () => {
   const { signOut } = useContext(AuthContext);
   return (
     <div>
@@ -14,3 +14,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;
