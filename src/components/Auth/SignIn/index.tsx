@@ -22,11 +22,11 @@ const SignIn = () => {
   const HandlerComp = (): JSX.Element => {
     if (currentComp === ECurrentComp.signIn)
       return <FormSingIn setEmailForConfirmationCode={setEmailForConfirmationCode} setCurrentComp={setCurrentComp} />
-    else if (currentComp === ECurrentComp.confirmedCode)
-      return <ConfirmedCode email={emailForConfirmationCode} setCurrentComp={setCurrentComp} forgotPassword={forgotPassword} />
     else if (currentComp === ECurrentComp.forgotPassword)
       return <ForgotPassword setCurrentComp={setCurrentComp} setEmailForConfirmationCode={setEmailForConfirmationCode} setForgotPassword={setForgotPassword}/>
-  
+    else if (currentComp === ECurrentComp.confirmedCode)
+      return <ConfirmedCode email={emailForConfirmationCode} setCurrentComp={setCurrentComp} forgotPassword={forgotPassword} />
+    
     return <ResetPassword setCurrentComp={setCurrentComp}/>
   }
 

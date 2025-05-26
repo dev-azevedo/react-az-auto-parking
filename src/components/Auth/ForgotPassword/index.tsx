@@ -9,6 +9,7 @@ import { api } from "@/services/api";
 import Spinner from "@/components/models/Spinner";
 import { ECurrentComp, type TForgotPassword } from "@/components/Auth/types.auth";
 import useAuthContext from "@/hooks/useAuthContext";
+import type { TResponseApi } from "@/types/TResponseApi";
 
 const ForgotPassword = ({setCurrentComp, setEmailForConfirmationCode, setForgotPassword}: TForgotPassword) => {
     const { signOut } = useAuthContext();
@@ -27,7 +28,7 @@ const ForgotPassword = ({setCurrentComp, setEmailForConfirmationCode, setForgotP
         
         setLoading(true);
         try {
-            await api.post("/auth/password/forgot",  { email });
+            await api.post<TResponseApi>("/auth/password/forgot",  { email });
             toast.success("Verifique seu email, foi enviado o código para recuperar sua senha.");
             setEmailForConfirmationCode(email);
             setForgotPassword(true);

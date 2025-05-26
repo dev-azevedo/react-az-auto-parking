@@ -17,14 +17,6 @@ export type TUser = {
   token: string;
 };
 
-export type TResponseApi = {
-  statusCode: number;
-  isSuccess: boolean;
-  data: any;
-  message: string | null;
-};
-
-
 export type TSignIn = {
   email: string;
   password: string;

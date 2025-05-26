@@ -10,7 +10,7 @@ import Spinner from "@/components/models/Spinner";
 import BaseAnimate from "@/components/models/BaseAnimate";
 import useAuthContext from "@/hooks/useAuthContext";
 import { ECurrentComp, type TConfirmedCode } from "@/components/Auth/types.auth";
-import type { TResponseApi } from "@/context/type.auth";
+import type { TResponseApi } from "@/types/TResponseApi";
 
 
 const ConfirmedCode = ({ email, setCurrentComp, forgotPassword }:TConfirmedCode) => {

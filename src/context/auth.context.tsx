@@ -2,9 +2,10 @@ import { createContext, useEffect, useState, type ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
-import { api } from "../services/api";
-import type { TAuthContext, TResponseApi, TSignIn, TUser, TJwtPayload } from "./type.auth";
-import helper from "../services/helper";
+import { api } from "@/services/api";
+import type { TAuthContext, TSignIn, TUser, TJwtPayload } from "./type.auth";
+import type { TResponseApi } from "@/types/TResponseApi";
+import helper from "@/services/helper";
 
 
 export const AuthContext = createContext<TAuthContext>({} as TAuthContext);

@@ -8,6 +8,7 @@ import Button from "../../models/Button";
 import Helper from "../../../services/helper";
 import Spinner from "../../models/Spinner";
 import { api } from "../../../services/api";
+import type { TResponseApi } from "@/types/TResponseApi";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -73,7 +74,7 @@ const SignUp = () => {
         }
 
         try {
-            const { status } = await api.post("/auth/signup", payload);
+            const { status } = await api.post<TResponseApi>("/auth/signup", payload);
             if (status === 201) {
                 toast.success("Cadastro realizado com sucesso");
                 navigate("/signin");
