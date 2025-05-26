@@ -14,7 +14,7 @@ const Parking = () => {
     const [parkings, setParkings] = useState<TParking[]>([]);
     const [newParkings, setNewParkings] = useState<boolean>(false);
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
-    const [dataParking, setDataParking] = useState<TParkingData>({});
+    const [dataParking, setDataParking] = useState<TParkingData>({totalParkings: 0, availableParkings: 0, busyParkings: 0});
 
     useEffect(() => {
         handlerGetParkings();
