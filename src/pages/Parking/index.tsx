@@ -6,14 +6,23 @@ import { api } from "@/services/api";
 import type { TResponseApi } from "@/types/TResponseApi";
 import { CircleParking } from "lucide-react";
 import Button from "@/components/models/Button";
+import Modal from "@/components/models/Modal";
+import RegisterParking from "@/components/Parking/RegisterParking";
 
 const Parking = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [parkings, setParkings] = useState<TParking[]>([]);
+    const [newParkings, setNewParkings] = useState<boolean>(false);
+    const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
         handlerGetParkings();
-    }, [])
+        
+        if (newParkings) {
+            setNewParkings(false);
+            setModalOpen(false);
+        }
+    }, [newParkings])
 
     const handlerGetParkings = async () => {
         setLoading(true);
@@ -47,8 +56,13 @@ const Parking = () => {
 
 
                 <div className="mt-5">
-                    <div className="border-b border-slate-200 py-5">
+                    <div className="border-b border-slate-200 py-5 flex justify-between items-center">
                         <h3 className="text-secondary font-semibold text-xl xl:text-2xl">Vagas</h3>
+                        <div className="flex justify-end">
+                            <Button className="bg-slate-700 text-white flex" onClick={() => setModalOpen(true)}>
+                                <span>Cadastrar vaga</span>
+                            </Button>
+                        </div>
                     </div>
 
                     {loading ? (
@@ -68,20 +82,20 @@ const Parking = () => {
                                         </h3>
                                         <p className="text-slate-400">
                                             <span>
-                                                Status: 
+                                                Status:
                                             </span>
                                             <span className="text-dark font-semibold mx-2">
                                                 {parking.available ? "Disponível" : "Ocupada"}
                                             </span>
-                                            </p>
+                                        </p>
                                     </div>
 
                                     {parking.available && (
                                         <div className="w-full flex justify-end mt-3">
-                                            <Button className="flex items-center gap-2">
-                                            <span>Reservar</span> <CircleParking className="text-green-400 w-5 h-5" />
+                                            <Button className="flex items-center gap-2" onClick={() => setModalOpen(true)}>
+                                                <span>Reservar</span> <CircleParking className="text-green-400 w-5 h-5" />
                                             </Button>
-                                        </div> 
+                                        </div>
                                     )}
                                 </div>
                             ))}
@@ -90,6 +104,10 @@ const Parking = () => {
 
                 </div>
             </section>
+
+            <Modal title="Cadastrar nova vaga" isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+                <RegisterParking setNewParkings={setNewParkings} />
+            </Modal>
         </BaseAnimate >
     );
 };
