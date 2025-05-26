@@ -1,6 +1,6 @@
 import BaseAnimate from "@/components/models/BaseAnimate";
 import { useEffect, useState } from "react";
-import type { TParking } from "./type.parking";
+import type { TParking, TParkingData } from "./type.parking";
 import helper from "@/services/helper";
 import { api } from "@/services/api";
 import type { TResponseApi } from "@/types/TResponseApi";
@@ -14,6 +14,7 @@ const Parking = () => {
     const [parkings, setParkings] = useState<TParking[]>([]);
     const [newParkings, setNewParkings] = useState<boolean>(false);
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
+    const [dataParking, setDataParking] = useState<TParkingData>({});
 
     useEffect(() => {
         handlerGetParkings();
@@ -22,6 +23,7 @@ const Parking = () => {
             setNewParkings(false);
             setModalOpen(false);
         }
+
     }, [newParkings])
 
     const handlerGetParkings = async () => {
@@ -29,6 +31,15 @@ const Parking = () => {
         try {
             const { data } = await api.get<TResponseApi>("/parkings");
             const result = data.data.items;
+
+            const payload = {
+                totalParkings: data.data.totalItems,
+                availableParkings: data.data.items.filter((parking: TParking) => parking.available).length,
+                busyParkings: data.data.items.filter((parking: TParking) => !parking.available).length
+            }
+
+            setDataParking(payload);
+
             console.log(result)
             setParkings(result);
         } catch (error) {
@@ -47,10 +58,10 @@ const Parking = () => {
                 </header>
 
                 <div>
-                    <div className="xl:p-5 py-5 w-full flex flex-col gap-3 justify-between items-center">
-                        <div className="bg-slate-100 p-5 rounded-md w-full">Total de vagas: 20</div>
-                        <div className="bg-slate-100 p-5 rounded-md w-full">Vagas disponíveis: 10</div>
-                        <div className="bg-slate-100 p-5 rounded-md w-full">Vagas ocupadas: 10</div>
+                    <div className="xl:p-5 py-5 w-full flex flex-col xl:flex-row gap-3 justify-between items-center">
+                        <div className="bg-slate-100 p-5 rounded-md w-full">Total de vagas: {dataParking.totalParkings}</div>
+                        <div className="bg-slate-100 p-5 rounded-md w-full">Vagas disponíveis: {dataParking.availableParkings}</div>
+                        <div className="bg-slate-100 p-5 rounded-md w-full">Vagas ocupadas: {dataParking.busyParkings}</div>
                     </div>
                 </div>
 
