@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 import BaseAnimate from "@/components/models/BaseAnimate";
@@ -7,7 +7,7 @@ import Input from "@/components/models/Input";
 import helper from "@/services/helper";
 import Spinner from "@/components/models/Spinner";
 import useAuthContext from "@/hooks/useAuthContext";
-import { ECurrentComp, type TResetPassword } from "@/components/Auth/types.auth";
+import { ECurrentComp, type TResetPassword } from "@/types/TAuth";
 import { api } from "@/services/api";
 
 const ResetPassword = ({ setCurrentComp }: TResetPassword) => {

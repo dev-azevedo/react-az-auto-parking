@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -9,7 +9,7 @@ import Button from "@/components/models/Button";
 import Spinner from "@/components/models/Spinner";
 import BaseAnimate from "@/components/models/BaseAnimate";
 import useAuthContext from "@/hooks/useAuthContext";
-import { ECurrentComp, type TConfirmedCode } from "@/components/Auth/types.auth";
+import { ECurrentComp, type TConfirmedCode } from "@/types/TAuth";
 import type { TResponseApi } from "@/types/TResponseApi";
 
 

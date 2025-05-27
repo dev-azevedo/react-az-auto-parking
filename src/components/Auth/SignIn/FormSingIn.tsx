@@ -7,7 +7,7 @@ import useAuthContext from "@/hooks/useAuthContext";
 import Input from "@/components/models/Input";
 import Button from "@/components/models/Button";
 import Spinner from "@/components/models/Spinner";
-import { ECurrentComp, type TFormSingIn } from "@/components/Auth/types.auth";
+import { ECurrentComp, type TFormSingIn } from "@/types/TAuth";
 
 const FormSingIn = ({ setEmailForConfirmationCode, setCurrentComp }: TFormSingIn) => {
     const { signIn } = useAuthContext()

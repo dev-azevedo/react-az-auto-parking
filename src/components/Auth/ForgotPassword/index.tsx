@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "react-toastify";
 
 import BaseAnimate from "@/components/models/BaseAnimate"
@@ -7,8 +7,8 @@ import Input from "@/components/models/Input";
 import helper from "@/services/helper";
 import { api } from "@/services/api";
 import Spinner from "@/components/models/Spinner";
-import { ECurrentComp, type TForgotPassword } from "@/components/Auth/types.auth";
 import useAuthContext from "@/hooks/useAuthContext";
+import { ECurrentComp, type TForgotPassword } from "@/types/TAuth";
 import type { TResponseApi } from "@/types/TResponseApi";
 
 const ForgotPassword = ({setCurrentComp, setEmailForConfirmationCode, setForgotPassword}: TForgotPassword) => {

@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-import BaseAnimate from "../../models/BaseAnimate";
-import Input from "../../models/Input";
-import Button from "../../models/Button";
-import Helper from "../../../services/helper";
-import Spinner from "../../models/Spinner";
-import { api } from "../../../services/api";
+import BaseAnimate from "@/components/models/BaseAnimate";
+import Input from "@/components/models/Input";
+import Button from "@/components/models/Button";
+import Spinner from "@/components/models/Spinner";
+import { api } from "@/services/api";
+import Helper from "@/services/helper";
 import type { TResponseApi } from "@/types/TResponseApi";
 
 const SignUp = () => {

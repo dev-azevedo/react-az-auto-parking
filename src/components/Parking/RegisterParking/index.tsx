@@ -26,8 +26,7 @@ const RegisterParking = ({ setNewParkings }: TRegisterParking) => {
         setLoading(true);
         
         try {
-            alert(parkingNumber)
-            const { status } = await api.post<TResponseApi>("/parkings", {
+            const { status } = await api.post<TResponseApi>(`/parkings??skip=1&take=5`, {
                 parkingNumber: +parkingNumber
             });
             if (status === 201) {

@@ -1,5 +1,6 @@
 import type { JSX } from "react";
 import BaseAnimate from "../BaseAnimate";
+import React from "react";
 
 type TModal = {
     isOpen: boolean;
@@ -30,4 +31,4 @@ const Modal = ({ isOpen, onClose, children, title }: TModal) => {
     );
 }
 
-export default Modal
+export default React.memo(Modal);

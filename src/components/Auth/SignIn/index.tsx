@@ -1,4 +1,4 @@
-import { useContext, useState, type JSX } from "react";
+import React, { useContext, useState, type JSX } from "react";
 import { Navigate } from "react-router-dom";
 
 import { AuthContext } from "@/context/auth.context";
@@ -6,9 +6,8 @@ import BaseAnimate from "@/components/models/BaseAnimate";
 import ConfirmedCode from "@/components/Auth/ConfirmedCode";
 import FormSingIn from "@/components/Auth/SignIn/FormSingIn";
 import ForgotPassword from "@/components/Auth/ForgotPassword";
-import { ECurrentComp, type TCurrentComp } from "@/components/Auth/types.auth";
+import { ECurrentComp, type TCurrentComp } from "@/types/TAuth";
 import ResetPassword from "@/components/Auth/ResetPassword";
-import React from "react";
 
 
 const SignIn = () => {

@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "@/services/api";
-import type { TAuthContext, TSignIn, TUser, TJwtPayload } from "./type.auth";
+import type { TAuthContext, TSignIn, TUser, TJwtPayload } from "@/types/TAuthContext";
 import type { TResponseApi } from "@/types/TResponseApi";
 import helper from "@/services/helper";
 
@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (token) {
         const decoded = jwtDecode(token) as TJwtPayload;
-        console.log("Token decodificado:", decoded);
 
         if (decoded.exp && Date.now() >= decoded.exp * 1000) {
           signOut();
@@ -40,7 +39,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         const resetPassword = decoded.resetPassword == "True" ? true : false;
         resetPassword ? setSigned(false) : setSigned(true);
-        console.log(signed)
 
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         setUser(payloadUser);

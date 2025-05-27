@@ -57,5 +57,6 @@ export default tseslint.config({
 
 - dark text: slate-700
 - light text: text-white
+- text secondary: text-orange-500
 - bg main: sky-700
 - bg secondary: slate-800
