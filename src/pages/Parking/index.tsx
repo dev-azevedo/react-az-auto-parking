@@ -69,17 +69,17 @@ const Parking = () => {
                 </header>
 
                 <div>
-                    <div className="xl:p-5 py-5 w-full flex flex-col xl:flex-row gap-3 justify-between items-center">
+                    <div className="py-5 w-full flex flex-col xl:flex-row gap-3 justify-between items-center">
                         <div className="bg-slate-100 p-5 rounded-md w-full">Total de vagas: {dataParking.totalParkings}</div>
-                        <div className="bg-slate-100 p-5 rounded-md w-full">Vagas disponíveis: {dataParking.availableParkings}</div>
-                        <div className="bg-slate-100 p-5 rounded-md w-full">Vagas ocupadas: {dataParking.busyParkings}</div>
+                        <div className="bg-green-100 p-5 rounded-md w-full">Vagas disponíveis: {dataParking.availableParkings}</div>
+                        <div className="bg-red-100 p-5 rounded-md w-full">Vagas ocupadas: {dataParking.busyParkings}</div>
                     </div>
                 </div>
 
 
                 <div className="mt-5">
                     <div className="border-b border-slate-200 py-5 flex justify-between items-center">
-                        <h3 className="text-secondary font-semibold text-xl xl:text-2xl">Vagas</h3>
+                        <h3 className="text-dark font-bold text-xl xl:text-2xl">Vagas</h3>
                         <div className="flex justify-end">
                             <Button className="bg-slate-700 text-white flex" onClick={() => setModalOpen(true)}>
                                 <span>Cadastrar vaga</span>

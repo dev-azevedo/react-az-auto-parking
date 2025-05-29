@@ -3,7 +3,9 @@ import { toast } from "react-toastify"
 class Helper {
     ResponseErrorApi(error: any) {
         if (!!error?.response && error?.response?.data) {
-            toast.error(error?.response?.data?.message?.ptBr)
+            error?.response?.data?.messages.forEach((erro: any) => {
+                toast.error(erro.ptBr)
+            });
             return
         }
         
